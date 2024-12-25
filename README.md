@@ -33,8 +33,14 @@ pip install -r requirements.txt
 1. 将眼科检查报告PDF文件放入`data`文件夹
 2. 运行主程序：
 ```bash
-python extract_info.py
+python extract_info.py --pdf_path ./data/sample.pdf --page_number 2 --text_path ./data/sample_text.txt
 ```
+
+参数说明：
+- `--pdf_path`: PDF文件路径（默认：./data/sample.pdf）
+- `--page_number`: 要提取的PDF页码，从1开始（默认：2）
+- `--text_path`: 病历文本文件路径（默认：./data/sample_text.txt）
+
 3. 程序将生成以下输出文件：
    - `eye_measurements.xlsx`：包含双眼测量数据
    - `eye_text_extracted.json`：包含病历文本提取结果

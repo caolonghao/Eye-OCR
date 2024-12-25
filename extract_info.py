@@ -11,6 +11,8 @@ from dashscope import Generation
 from http import HTTPStatus
 import logging
 import json
+import argparse
+
 
 def call_qwen(prompts, content):
     # 设置 API key
@@ -162,9 +164,23 @@ extract_prompts = """
 """
 
 if __name__=='__main__':
-    pdf_path = "./data/sample.pdf"  # 替换为你的PDF文件路径
-    page_number = 2  # 想要提取的页码（从1开始）
-
+    parser = argparse.ArgumentParser(description='提取眼科检查数据')
+    parser.add_argument('--pdf_path', type=str, default='./data/sample.pdf',
+                        help='PDF文件路径')
+    parser.add_argument('--page_number', type=int, default=2,
+                        help='要提取的PDF页码(从1开始)')
+    parser.add_argument('--text_path', type=str, default='./data/sample_text.txt',
+                        help='测试文本文件路径')
+    args = parser.parse_args()
+    
+    pdf_path = args.pdf_path
+    page_number = args.page_number
+    text_path = args.text_path
+    
+    # 从文件中读取测试文本
+    with open(text_path, 'r', encoding='utf-8') as f:
+        test_text = f.read()
+    
     split_pdf_page_to_eyes(pdf_path, page_number)
     
     left_eye_text = extract_text_from_image('left_eye.png')
@@ -173,9 +189,7 @@ if __name__=='__main__':
     measurement_data = extract_both_eyes_data(left_eye_text, right_eye_text)
     measurement_data.to_excel('eye_measurements.xlsx', index=False)
     
-    # 从文件中读取测试文本
-    with open('./data/sample_text.txt', 'r', encoding='utf-8') as f:
-        test_text = f.read()
+
     
     response_text = call_qwen(extract_prompts, test_text)
     
