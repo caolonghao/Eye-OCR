@@ -173,9 +173,9 @@ if __name__=='__main__':
     measurement_data = extract_both_eyes_data(left_eye_text, right_eye_text)
     measurement_data.to_excel('eye_measurements.xlsx', index=False)
     
-    test_text = """
-    主诉及现病史：双眼远视力下降复查。新冠流调未见异常，无发热、呼吸道及消化道症状。 既往史：既往体健。药敏史-，父亲近视-6.0D。 查体和专科情况：视力0.6/0.25，眼位-，双眼角膜清，前房周边1ct，中央5ct，晶体透明，眼底前置镜观察-，双眼均为中心注视。 辅助检查： 散瞳验光-2.00-0.50*180/-2.00 1.0/2.1，眼轴长 25.34-25.38 诊断或印象诊断：近视 处理意见：完善检查。复验配镜，规律戴镜，3-6个月复查，注意用眼卫生。 处方：复方托吡卡胺滴眼液, 滴眼, 1ml/, 1ml/支; 诊疗：中央前房深度测量-裂隙灯法;周边前房深度测量-裂隙灯法;前置镜眼底检查;注视性质检查;普通远视力检查;非接触眼压计(NCT)测量; 检查：眼科检查散瞳验光组合;眼科检查眼轴IOL度数测量-光学法(Master);眼科检查激光扫描检眼镜眼底检查(欧堡); 检验：   嘱托：不适随诊 提示：病情发生变化时建议门诊复诊，必要时急诊就诊。 医师：     就诊日期：2022-08-31 眼压日曲线 眼外伤玻璃体手术随访登记表 眼科健康教育处方 8028 8058
-    """
+    # 从文件中读取测试文本
+    with open('./data/sample_text.txt', 'r', encoding='utf-8') as f:
+        test_text = f.read()
     
     response_text = call_qwen(extract_prompts, test_text)
     
